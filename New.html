@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExportLink - AI Export Market Intelligence & Matchmaking Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        accent: {
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-full flex flex-col">
+
+    <!-- Top Header -->
+    <header class="bg-slate-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="bg-gradient-to-tr from-brand-600 to-accent-500 text-white p-2.5 rounded-xl shadow-lg flex items-center justify-center font-bold text-xl">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-tight text-white flex items-center gap-2">
+                        ExportLink <span class="text-xs bg-brand-600/50 text-brand-100 px-2 py-0.5 rounded-full border border-brand-500/30">AI Platform</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Global Trade Intelligence & Matchmaking</p>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-btn transition hover:text-brand-400 text-brand-400 flex items-center gap-2 py-2">
+                    <i class="fa-solid fa-chart-pie"></i> หน้าหลัก (Dashboard)
+                </button>
+                <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn transition hover:text-brand-400 text-slate-300 flex items-center gap-2 py-2">
+                    <i class="fa-solid fa-building-user"></i> ข้อมูลธุรกิจ & สินค้า
+                </button>
+                <button onclick="switchTab('market')" id="nav-market" class="nav-btn transition hover:text-brand-400 text-slate-300 flex items-center gap-2 py-2">
+                    <i class="fa-solid fa-earth-asia"></i> วิเคราะห์ตลาดเป้าหมาย
+                </button>
+                <button onclick="switchTab('calculator')" id="nav-calculator" class="nav-btn transition hover:text-brand-400 text-slate-300 flex items-center gap-2 py-2">
+                    <i class="fa-solid fa-calculator"></i> คำนวณต้นทุน & AI จับคู่
+                </button>
+                <button onclick="switchTab('result')" id="nav-result" class="nav-btn transition hover:text-brand-400 text-slate-300 flex items-center gap-2 py-2">
+                    <i class="fa-solid fa-file-invoice-dollar"></i> รายงานผลสรุป
+                </button>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <div class="hidden lg:block text-right">
+                    <div id="header-biz-name" class="text-xs font-semibold text-slate-200">สยามออร์แกนิกส์ ฟู้ดส์ จำกัด</div>
+                    <div class="text-[10px] text-accent-400 flex items-center justify-end gap-1"><i class="fa-solid fa-circle text-[8px] animate-pulse"></i> พร้อมส่งออก</div>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-brand-600 border border-brand-500 flex items-center justify-center text-white font-bold shadow">
+                    SO
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Bar -->
+    <div class="md:hidden bg-slate-900 border-t border-slate-800 text-slate-300 flex justify-around py-2 text-xs font-medium sticky top-16 z-40">
+        <button onclick="switchTab('home')" id="mob-home" class="mob-btn flex flex-col items-center text-brand-400">
+            <i class="fa-solid fa-chart-pie text-base mb-1"></i> Dashboard
+        </button>
+        <button onclick="switchTab('profile')" id="mob-profile" class="mob-btn flex flex-col items-center">
+            <i class="fa-solid fa-building-user text-base mb-1"></i> ข้อมูลสินค้า
+        </button>
+        <button onclick="switchTab('market')" id="mob-market" class="mob-btn flex flex-col items-center">
+            <i class="fa-solid fa-earth-asia text-base mb-1"></i> ตลาด
+        </button>
+        <button onclick="switchTab('calculator')" id="mob-calculator" class="mob-btn flex flex-col items-center">
+            <i class="fa-solid fa-calculator text-base mb-1"></i> คำนวณ&จับคู่
+        </button>
+        <button onclick="switchTab('result')" id="mob-result" class="mob-btn flex flex-col items-center">
+            <i class="fa-solid fa-file-invoice-dollar text-base mb-1"></i> รายงาน
+        </button>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- TAB 0: HOME / DASHBOARD -->
+        <div id="tab-home" class="tab-content fade-in space-y-6">
+            <div class="bg-gradient-to-r from-brand-900 via-brand-700 to-slate-900 text-white p-8 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <span class="bg-accent-500 text-slate-900 font-bold text-xs px-3 py-1 rounded-full uppercase">ยินดีต้อนรับสู่ AI Export Hub</span>
+                    <h2 class="text-3xl font-extrabold mt-3">ยกระดับ SME ไทย สู่ตลาดการค้าโลก</h2>
+                    <p class="text-slate-200 text-sm mt-2 max-w-2xl">แพลตฟอร์มช่วยวิเคราะห์ข้อมูลตลาดต่างประเทศ คำนวณราคา FOB/CIF และเชื่อมต่อผู้ซื้อรายใหญ่ทั่วโลกด้วยระบบ AI Matchmaking อัจฉริยะ</p>
+                    <div class="mt-5 flex flex-wrap gap-3">
+                        <button onclick="switchTab('market')" class="bg-white text-brand-900 hover:bg-brand-50 px-5 py-2.5 rounded-xl font-bold text-sm shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-earth-asia"></i> เริ่มวิเคราะห์ตลาดทันที
+                        </button>
+                        <button onclick="switchTab('calculator')" class="bg-brand-600/60 hover:bg-brand-600 border border-brand-400/40 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-handshake"></i> ค้นหาผู้ซื้อ AI Matchmaking
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 w-full md:w-80 space-y-4">
+                    <div class="flex items-center justify-between text-xs text-slate-300">
+                        <span>ความพร้อมในการส่งออก</span>
+                        <span class="text-accent-400 font-bold">88% (สูงมาก)</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2.5">
+                        <div class="bg-accent-500 h-2.5 rounded-full" style="width: 88%"></div>
+                    </div>
+                    <div class="text-xs space-y-2 pt-2 border-t border-white/10">
+                        <div class="flex justify-between"><span>สินค้าหลัก:</span> <strong id="dash-prod" class="text-white">ข้าวหอมมะลิออร์แกนิก</strong></div>
+                        <div class="flex justify-between"><span>ตลาดแนะนำ:</span> <strong class="text-accent-400">สหรัฐอเมริกา & ญี่ปุ่น</strong></div>
+                        <div class="flex justify-between"><span>AI Match Score:</span> <strong class="text-brand-300">94.5%</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">มูลค่าตลาดเป้าหมายรวม</p>
+                        <h4 class="text-xl font-bold text-slate-900">$1,450 ล้าน USD</h4>
+                        <span class="text-[10px] text-accent-600 font-semibold">+8.4% จากปีก่อน</span>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-accent-50 text-accent-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">ผู้ซื้อศักยภาพสูงที่พบ</p>
+                        <h4 class="text-xl font-bold text-slate-900">14 ราย</h4>
+                        <span class="text-[10px] text-brand-600 font-semibold">ยืนยันตัวตนแล้ว</span>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">มาตรฐานสากล</p>
+                        <h4 class="text-xl font-bold text-slate-900">GMP, HACCP, USDA</h4>
+                        <span class="text-[10px] text-purple-600 font-semibold">ผ่านเกณฑ์ส่งออก</span>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-file-contract"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">คำนวณราคา FOB สำเร็จ</p>
+                        <h4 class="text-xl font-bold text-slate-900">฿42.50 / กก.</h4>
+                        <span class="text-[10px] text-amber-600 font-semibold">Margin กำไร 28%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Guide Steps -->
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-brand-600"></i> ขั้นตอนการใช้งานระบบ ExportLink
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <span class="w-8 h-8 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">1</span>
+                        <h4 class="font-bold text-sm text-slate-900">บันทึกข้อมูลธุรกิจ</h4>
+                        <p class="text-xs text-slate-600">กรอกข้อมูลสินค้าและมาตรฐานการผลิตของคุณ</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <span class="w-8 h-8 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">2</span>
+                        <h4 class="font-bold text-sm text-slate-900">วิเคราะห์ตลาดเป้าหมาย</h4>
+                        <p class="text-xs text-slate-600">เลือกประเทศและดูเทรนด์ความต้องการสินค้า</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <span class="w-8 h-8 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">3</span>
+                        <h4 class="font-bold text-sm text-slate-900">คำนวณราคา & AI จับคู่</h4>
+                        <p class="text-xs text-slate-600">คำนวณต้นทุนส่งออกและค้นหาผู้ซื้อที่ตรงกลุ่ม</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <span class="w-8 h-8 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">4</span>
+                        <h4 class="font-bold text-sm text-slate-900">ดาวน์โหลดรายงาน</h4>
+                        <p class="text-xs text-slate-600">รับสรุปข้อมูลเพื่อใช้เจรจาการค้ากับคู่ค้าจริง</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: Profile & Business Setup -->
+        <div id="tab-profile" class="tab-content hidden fade-in space-y-6">
+            <div class="bg-gradient-to-r from-brand-900 to-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="max-w-3xl">
+                    <span class="bg-brand-600 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">ส่วนที่ 1: ข้อมูลผู้ประกอบการ & สินค้าส่งออก</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2">โปรไฟล์ธุรกิจและรายละเอียดสินค้า</h2>
+                    <p class="text-slate-300 text-sm mt-1">กรอกข้อมูลธุรกิจและคุณสมบัติสินค้าของคุณ เพื่อให้ระบบ AI วิเคราะห์หาตลาดส่งออกและผู้ซื้อที่ตรงจุดที่สุด</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Form Inputs -->
+                <div class="lg:col-span-2 bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <h3 class="text-lg font-bold text-slate-900 border-b pb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-id-card text-brand-600"></i> บันทึกข้อมูลองค์กรและสินค้า
+                    </h3>
+
+                    <form id="profile-form" onsubmit="saveProfile(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">ชื่อบริษัท / ผู้ประกอบการ SME</label>
+                                <input type="text" id="biz-name" value="สยามออร์แกนิกส์ ฟู้ดส์ จำกัด" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">ผู้ติดต่อ / ตำแหน่ง</label>
+                                <input type="text" id="biz-owner" value="คุณศรัณย์ แซ่เบ๊ (กรรมการผู้จัดการ)" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">หมวดหมู่สินค้า (Product Category)</label>
+                                <select id="prod-category" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                                    <option value="Organic Jasmine Rice & Grains">ข้าวและธัญพืชออร์แกนิก (Organic Rice & Grains)</option>
+                                    <option value="Processed Tropical Fruits">ผลไม้แปรรูปและเครื่องดื่ม (Processed Fruit & Beverages)</option>
+                                    <option value="Thai Herb Cosmetics & Spa">เครื่องสำอางสมุนไพรและสปา (Herbal & Spa)</option>
+                                    <option value="Eco-Friendly Smart Furniture">เฟอร์นิเจอร์รักษ์โลก (Eco-Furniture)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">ชื่อสินค้าส่งออก</label>
+                                <input type="text" id="prod-name" value="ข้าวหอมมะลิออร์แกนิก 100% (Organic Jasmine Rice Premium)" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">กำลังการผลิตต่อเดือน</label>
+                                <input type="text" id="prod-capacity" value="50 ตัน / เดือน" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">มาตรฐานสากลที่มี (Certifications)</label>
+                                <input type="text" id="prod-cert" value="GMP, HACCP, USDA Organic, EU Organic" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">จุดเด่นของสินค้า (Unique Selling Proposition - USP)</label>
+                            <textarea id="prod-usp" rows="3" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:bg-white transition">ปลูกในพื้นที่ดินทุ่งกุลาร้องไห้ ปลอดสารเคมี 100% เมล็ดเรียวยาว หอมนุ่มเป็นเอกลักษณ์ บรรจุภัณฑ์รักษ์โลกย่อยสลายได้</textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลและไปยังขั้นตอนถัดไป
+                        </button>
+                    </form>
+                </div>
+
+                <!-- AI Insights Sidebar -->
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-slate-900 to-brand-900 text-white p-6 rounded-2xl shadow-sm border border-slate-800 space-y-4">
+                        <div class="flex items-center gap-2 text-brand-400 font-bold text-sm">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Recommendation
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            ระบบ AI วิเคราะห์พบว่าสินค้า <strong class="text-white" id="ai-sidebar-prod">ข้าวหอมมะลิออร์แกนิก</strong> ของท่าน มีความต้องการสูงในตลาดอเมริกาเหนือและสหภาพยุโรป เนื่องจากเทรนด์รักสุขภาพ (Health-Conscious) ที่เติบโตขึ้น 15%
+                        </p>
+                        <div class="pt-3 border-t border-slate-700/60 text-xs space-y-2">
+                            <div class="flex justify-between text-slate-400"><span>HS Code แนะนำ:</span> <span class="text-accent-400 font-mono">1006.30</span></div>
+                            <div class="flex justify-between text-slate-400"><span>ภาษีนำเข้า (MFN):</span> <span class="text-white">0% - 5% (อ้างอิง FTA)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Market Intelligence -->
+        <div id="tab-market" class="tab-content hidden fade-in space-y-6">
+            <div class="bg-gradient-to-r from-brand-900 to-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="max-w-3xl">
+                    <span class="bg-brand-600 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">ส่วนที่ 2: วิเคราะห์ตลาดเป้าหมาย</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2">เจาะลึกตลาดต่างประเทศด้วย AI Intelligence</h2>
+                    <p class="text-slate-300 text-sm mt-1">เลือกประเทศเป้าหมายเพื่อดูข้อมูลเชิงลึก พฤติกรรมผู้บริโภค และความพร้อมในการบุกตลาด</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Select Market -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-globe text-brand-600"></i> เลือกประเทศเป้าหมาย
+                    </h3>
+                    <div class="space-y-2">
+                        <button onclick="selectMarket('USA')" id="btn-market-USA" class="market-option w-full text-left p-3.5 rounded-xl border border-brand-500 bg-brand-50 text-brand-900 font-semibold text-sm flex items-center justify-between transition">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-flag-usa text-blue-600"></i> สหรัฐอเมริกา (USA)</span>
+                            <i class="fa-solid fa-circle-check text-brand-600"></i>
+                        </button>
+                        <button onclick="selectMarket('Japan')" id="btn-market-Japan" class="market-option w-full text-left p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm flex items-center justify-between transition">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-earth-asia text-red-500"></i> ญี่ปุ่น (Japan)</span>
+                            <i class="fa-solid fa-circle text-slate-300"></i>
+                        </button>
+                        <button onclick="selectMarket('China')" id="btn-market-China" class="market-option w-full text-left p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm flex items-center justify-between transition">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-earth-asia text-amber-500"></i> จีน (China)</span>
+                            <i class="fa-solid fa-circle text-slate-300"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Market Details Dashboard -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div id="market-detail-card" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4">
+                            <div>
+                                <span id="m-code" class="text-xs bg-brand-100 text-brand-800 font-bold px-3 py-1 rounded-full">US-MARKET-01</span>
+                                <h3 id="m-title" class="text-xl font-bold text-slate-900 mt-2">ตลาดสหรัฐอเมริกา (United States)</h3>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-500">ดัชนีโอกาสสำเร็จ (AI Score)</span>
+                                <div id="m-score" class="text-2xl font-extrabold text-accent-600">94.5 / 100</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="text-xs text-slate-500">มูลค่าตลาดรวมประจำปี</span>
+                                <h4 id="m-market-size" class="text-lg font-bold text-slate-900 mt-1">$450 ล้านดอลลาร์</h4>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="text-xs text-slate-500">อัตราการเติบโต (CAGR)</span>
+                                <h4 id="m-growth" class="text-lg font-bold text-accent-600 mt-1">+6.8% ต่อปี</h4>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="text-xs text-slate-500">พฤติกรรมผู้บริโภคหลัก</span>
+                                <h4 id="m-trend" class="text-sm font-bold text-slate-900 mt-1">เน้นสินค้าออร์แกนิก & รักษ์โลก</h4>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-sm text-slate-900"><i class="fa-solid fa-triangle-exclamation text-amber-500"></i> กฎระเบียบ & ข้อกำหนดการนำเข้าที่ต้องทราบ</h4>
+                            <ul id="m-rules" class="text-xs text-slate-600 space-y-2 bg-amber-50/50 p-4 rounded-xl border border-amber-200">
+                                <li>• ต้องผ่านการรับรองมาตรฐาน อย. สหรัฐอเมริกา (US FDA Registration)</li>
+                               <li>• ฉลากโภชนาการต้องแสดงหน่วยบริโภคและสารอาหารตามมาตรฐาน FDA</li>
+                                <li>• ใบรับรองสุขอนามัยพืช (Phytosanitary Certificate) จากกระทรวงเกษตรฯ</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Cost Calculator & AI Matchmaking -->
+        <div id="tab-calculator" class="tab-content hidden fade-in space-y-6">
+            <div class="bg-gradient-to-r from-brand-900 to-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-xl">
+                <div class="max-w-3xl">
+                    <span class="bg-brand-600 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">ส่วนที่ 3: คำนวณต้นทุน & AI จับคู่คู่ค้า</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2">คำนวณราคา FOB / CIF & ค้นหาผู้ซื้อ</h2>
+                    <p class="text-slate-300 text-sm mt-1">คำนวณต้นทุนการส่งออกอย่างแม่นยำ พร้อมระบบ AI Matchmaking ค้นหาผู้นำเข้าที่ตรงกับสินค้าของคุณ</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Calculator Box -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <h3 class="text-lg font-bold text-slate-900 border-b pb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-brand-600"></i> เครื่องคำนวณราคาขายส่งออก
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">ต้นทุนการผลิตต่อหน่วย (บาท)</label>
+                            <input type="number" id="calc-cost" value="30" oninput="calculateExport()" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">ค่าขนส่งในประเทศ & บรรจุภัณฑ์ (บาท)</label>
+                                <input type="number" id="calc-local" value="5" oninput="calculateExport()" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">กำไรที่ต้องการ (%)</label>
+                                <input type="number" id="calc-margin" value="25" oninput="calculateExport()" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold">
+                            </div>
+                        </div>
+
+                        <!-- Results Box -->
+                        <div class="bg-brand-50 p-5 rounded-2xl border border-brand-200 space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600 font-medium">ราคา FOB (ท่าเรือกรุงเทพ/แหลมฉบัง):</span>
+                                <span id="res-fob" class="font-bold text-brand-900 text-base">฿43.75 / กก.</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600 font-medium">ประมาณการราคา CIF (รวมค่าขนส่ง+ประกัน):</span>
+                                <span id="res-cif" class="font-bold text-accent-600 text-base">฿52.50 / กก. ($1.45 USD)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Matchmaking Buyers -->
+                <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <h3 class="text-lg font-bold text-slate-900 border-b pb-3 flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-handshake text-brand-600"></i> รายชื่อผู้ซื้อแนะนำ (AI Matchmaking)</span>
+                        <span class="text-xs bg-accent-100 text-accent-800 font-bold px-2.5 py-1 rounded-full">Top Matches</span>
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-xl border border-slate-200 hover:border-brand-500 transition space-y-2 bg-slate-50">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-900">Organic Foods Market LLC (USA)</h4>
+                                    <p class="text-xs text-slate-500">ผู้นำเข้าและจัดจำหน่ายสินค้าออร์แกนิกรายใหญ่ในแคลิฟอร์เนีย</p>
+                                </div>
+                                <span class="bg-brand-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">Match 96%</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs pt-2 border-t border-slate-200">
+                                <span class="text-slate-600">ความต้องการซื้อ: <strong>20 ตัน / เดือน</strong></span>
+                                <button onclick="alert('ส่งข้อความหาผู้ซื้อเรียบร้อยแล้ว! ระบบจะแจ้งเตือนเมื่อผู้นำเข้าตอบกลับ')" class="text-brand-600 hover:text-brand-800 font-bold flex items-center gap-1">
+                                    <i class="fa-solid fa-paper-plane"></i> ติดต่อเจรจาการค้า
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl border border-slate-200 hover:border-brand-500 transition space-y-2 bg-slate-50">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-900">Tokyo Green Agro Trading (Japan)</h4>
+                                    <p class="text-xs text-slate-500">เครือข่ายซุปเปอร์มาร์เก็ตพรีเมียมในโตเกียวและโอซาก้า</p>
+                                </div>
+                                <span class="bg-brand-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">Match 92%</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs pt-2 border-t border-slate-200">
+                                <span class="text-slate-600">ความต้องการซื้อ: <strong>15 ตัน / เดือน</strong></span>
+                                <button onclick="alert('ส่งข้อความหาผู้ซื้อเรียบร้อยแล้ว! ระบบจะแจ้งเตือนเมื่อผู้นำเข้าตอบกลับ')" class="text-brand-600 hover:text-brand-800 font-bold flex items-center gap-1">
+                                    <i class="fa-solid fa-paper-plane"></i> ติดต่อเจรจาการค้า
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Summary Report & Export -->
+        <div id="tab-result" class="tab-content hidden fade-in space-y-6">
+            <div class="bg-gradient-to-r from-brand-900 to-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <span class="bg-brand-600 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">ส่วนที่ 4: รายงานผลสรุปการส่งออก</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2">สรุปแผนธุรกิจส่งออก (Export Blueprint)</h2>
+                    <p class="text-slate-300 text-sm mt-1">ข้อมูลทั้งหมดถูกรวบรวมและวิเคราะห์โดย AI พร้อมให้ท่านนำไปใช้ยื่นขอสินเชื่อหรือเจรจาธุรกิจ</p>
+                </div>
+                <button onclick="window.print()" class="bg-white text-brand-900 hover:bg-brand-50 font-bold px-5 py-3 rounded-xl shadow transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-print"></i> พิมพ์ / บันทึกรายงาน (PDF)
+                </button>
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6" id="report-content">
+                <div class="border-b pb-4 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">EXPORTSMART BLUEPRINT & STRATEGY REPORT</h3>
+                        <p class="text-xs text-slate-500 mt-1">ออกโดยระบบ ExportLink AI Platform | วันที่: <span id="report-date">20 ตุลาคม 2026</span></p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm font-bold text-brand-600">ExportLink Certified</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div class="space-y-3 bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-900 border-b pb-2">1. ข้อมูลผู้ประกอบการและสินค้า</h4>
+                        <p><strong>ชื่อบริษัท:</strong> <span id="rep-biz">สยามออร์แกนิกส์ ฟู้ดส์ จำกัด</span></p>
+                        <p><strong>สินค้าส่งออก:</strong> <span id="rep-prod">ข้าวหอมมะลิออร์แกนิก 100%</span></p>
+                        <p><strong>มาตรฐาน:</strong> <span id="rep-cert">GMP, HACCP, USDA Organic</span></p>
+                    </div>
+
+                    <div class="space-y-3 bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-900 border-b pb-2">2. เป้าหมายและราคาเสนอขาย</h4>
+                        <p><strong>ตลาดเป้าหมายหลัก:</strong> สหรัฐอเมริกา & ญี่ปุ่น</p>
+                        <p><strong>ราคาเสนอขาย FOB:</strong> <span id="rep-fob">฿43.75 / กก.</span></p>
+                        <p><strong>ราคาประมาณการ CIF:</strong> <span id="rep-cif">฿52.50 / กก.</span></p>
+                    </div>
+                </div>
+
+                <div class="space-y-3 bg-brand-50 p-5 rounded-xl border border-brand-200">
+                    <h4 class="font-bold text-brand-900"><i class="fa-solid fa-circle-check text-brand-600"></i> ข้อเสนอแนะเชิงกลยุทธ์จาก AI</h4>
+                    <p class="text-xs text-slate-700 leading-relaxed">
+                        สินค้าของท่านมีจุดเด่นด้านออร์แกนิกแท้และผ่านมาตรฐานสากล แนะนำให้เข้าร่วมงานแสดงสินค้าอาหารนานาชาติ (เช่น Thaifex หรือ Fancy Food Show ในสหรัฐฯ) และใช้ระบบ AI Matchmaking ส่งใบเสนอราคาเบื้องต้นไปยังผู้นำเข้าที่ระบบแนะนำเพื่อปิดดีลคำสั่งซื้อลอตแรกภายใน 30 วัน
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-6 mt-12 text-xs">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>&copy; 2026 ExportLink - AI Export Market Intelligence & Matchmaking Platform. All rights reserved.</p>
+            <p class="text-slate-500">แพลตฟอร์มสนับสนุนผู้ประกอบการ SME ไทยสู่เวทีการค้าโลกด้วยเทคโนโลยี AI</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Show selected tab
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            // Update desktop nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-brand-400');
+                btn.classList.add('text-slate-300');
+            });
+            const activeNav = document.getElementById('nav-' + tabId);
+            if(activeNav) {
+                activeNav.classList.remove('text-slate-300');
+                activeNav.classList.add('text-brand-400');
+            }
+
+            // Update mobile nav buttons
+            document.querySelectorAll('.mob-btn').forEach(btn => {
+                btn.classList.remove('text-brand-400');
+            });
+            const activeMob = document.getElementById('mob-' + tabId);
+            if(activeMob) {
+                activeMob.classList.add('text-brand-400');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function saveProfile(event) {
+            event.preventDefault();
+            const bizName = document.getElementById('biz-name').value;
+            const prodName = document.getElementById('prod-name').value;
+            const cert = document.getElementById('prod-cert').value;
+
+            // Update across UI
+            document.getElementById('header-biz-name').innerText = bizName;
+            document.getElementById('dash-prod').innerText = prodName;
+            document.getElementById('ai-sidebar-prod').innerText = prodName;
+            
+            document.getElementById('rep-biz').innerText = bizName;
+            document.getElementById('rep-prod').innerText = prodName;
+            document.getElementById('rep-cert').innerText = cert;
+
+            alert('บันทึกข้อมูลโปรไฟล์ธุรกิจเรียบร้อยแล้ว!');
+            switchTab('market');
+        }
+
+        function selectMarket(marketKey) {
+            // Reset buttons
+            ['USA', 'Japan', 'China'].forEach(m => {
+                const btn = document.getElementById('btn-market-' + m);
+                btn.className = "market-option w-full text-left p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm flex items-center justify-between transition";
+                btn.querySelector('i:last-child').className = "fa-solid fa-circle text-slate-300";
+            });
+
+            // Set active
+            const activeBtn = document.getElementById('btn-market-' + marketKey);
+            activeBtn.className = "market-option w-full text-left p-3.5 rounded-xl border border-brand-500 bg-brand-50 text-brand-900 font-semibold text-sm flex items-center justify-between transition";
+            activeBtn.querySelector('i:last-child').className = "fa-solid fa-circle-check text-brand-600";
+
+            // Update details
+            if(marketKey === 'USA') {
+                document.getElementById('m-code').innerText = "US-MARKET-01";
+                document.getElementById('m-title').innerText = "ตลาดสหรัฐอเมริกา (United States)";
+                document.getElementById('m-score').innerText = "94.5 / 100";
+                document.getElementById('m-market-size').innerText = "$450 ล้านดอลลาร์";
+                document.getElementById('m-growth').innerText = "+6.8% ต่อปี";
+                document.getElementById('m-trend').innerText = "เน้นสินค้าออร์แกนิก & รักษ์โลก";
+                document.getElementById('m-rules').innerHTML = `
+                    <li>• ต้องผ่านการรับรองมาตรฐาน อย. สหรัฐอเมริกา (US FDA Registration)</li>
+                    <li>• ฉลากโภชนาการต้องแสดงหน่วยบริโภคและสารอาหารตามมาตรฐาน FDA</li>
+                    <li>• ใบรับรองสุขอนามัยพืช (Phytosanitary Certificate) จากกระทรวงเกษตรฯ</li>
+                `;
+            } else if(marketKey === 'Japan') {
+                document.getElementById('m-code').innerText = "JP-MARKET-02";
+                document.getElementById('m-title').innerText = "ตลาดญี่ปุ่น (Japan)";
+                document.getElementById('m-score').innerText = "91.0 / 100";
+                document.getElementById('m-market-size').innerText = "¥320,000 ล้านเยน";
+                document.getElementById('m-growth').innerText = "+4.2% ต่อปี";
+                document.getElementById('m-trend').innerText = "ใส่ใจคุณภาพความปลอดภัยสูงเป็นอันดับหนึ่ง";
+                document.getElementById('m-rules').innerHTML = `
+                    <li>• มาตรการตรวจสอบสารเคมีตกค้างเข้มงวด (Positive List System)</li>
+                    <li>• การรับรอง JAS (Japanese Agricultural Standard) สำหรับสินค้าออร์แกนิก</li>
+                    <li>• บรรจุภัณฑ์ต้องสะอาด ปลอดภัย และระบุวันผลิต/หมดอายุชัดเจน</li>
+                `;
+            } else if(marketKey === 'China') {
+                document.getElementById('m-code').innerText = "CN-MARKET-03";
+                document.getElementById('m-title').innerText = "ตลาดจีน (China)";
+                document.getElementById('m-score').innerText = "89.5 / 100";
+                document.getElementById('m-market-size').innerText = "¥850,000 ล้านเยน";
+                document.getElementById('m-growth').innerText = "+9.1% ต่อปี";
+                document.getElementById('m-trend').innerText = "นิยมซื้อผ่านแพลตฟอร์ม E-commerce และสินค้าพรีเมียม";
+                document.getElementById('m-rules').innerHTML = `
+                    <li>• ขึ้นทะเบียนโรงงานผู้ผลิตอาหารนำเข้ากับ General Administration of Customs China (GACC)</li>
+                    <li>• ฉลากสินค้าต้องเป็นภาษาจีนและแสดงแหล่งที่มาอย่างชัดเจน</li>
+                    <li>• ใบรับรองแหล่งกำเนิดสินค้า (Certificate of Origin - Form E)</li>
+                `;
+            }
+        }
+
+        function calculateExport() {
+            const cost = parseFloat(document.getElementById('calc-cost').value) || 0;
+            const local = parseFloat(document.getElementById('calc-local').value) || 0;
+            const margin = parseFloat(document.getElementById('calc-margin').value) || 0;
+
+            const baseTotal = cost + local;
+            const fob = baseTotal * (1 + (margin / 100));
+            const cif = fob * 1.20; // สมมติค่าขนส่ง+ประกันเพิ่ม 20%
+
+            document.getElementById('res-fob').innerText = '฿' + fob.toFixed(2) + ' / กก.';
+            document.getElementById('res-cif').innerText = '฿' + cif.toFixed(2) + ' / กก. ($' + (cif / 35).toFixed(2) + ' USD)';
+
+            document.getElementById('rep-fob').innerText = '฿' + fob.toFixed(2) + ' / กก.';
+            document.getElementById('rep-cif').innerText = '฿' + cif.toFixed(2) + ' / กก.';
+        }
+    </script>
+</body>
+</html>
